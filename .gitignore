@@ -240,3 +240,5 @@ TSWLatexianTemp*
 
 # generated if using elsarticle.cls
 *.spl
+Report/Resources/OWASP_Top_10-2017.pdf
+Report/Resources/Secure-Programs-HOWTO.pdf

@@ -1,7 +1,7 @@
 \documentclass[
     a4paper,
     12pt,
-    %twocolumn,
+    twocolumn,
     headings=normal
 ]{scrreprt}
     \usepackage{url}
@@ -20,7 +20,9 @@
     \usepackage{titling}
     \usepackage{pdflscape}
     \usepackage[english]{babel}
+    \usepackage{csquotes}
     \usepackage{comment}
+    \usepackage[normalem]{ulem}
     \usepackage[
     backend=biber,
     style=ieee,
@@ -36,8 +38,7 @@
     \setlength{\parskip}{\baselineskip}
 
     \title{Secure Coding Practices:
-    \protect\\How modern languages excel, fail and a 
-    comparative view of mature languages to modern languages in security.}
+    \protect\\A General Guideline}
     \author{
         Jay Rovacsek
         \texttt{c3146220@uon.edu.au}\\
@@ -83,29 +84,45 @@
 
     \section{Preface}
     \subsection{Running with Scissors}
-        Admittedly, the title\cite{Seacord} for this section is very much thanks to one of the first
-        items I read while creating this document. The analogy for development in terms of security 
-        could not be more apt for a large portion of the development community.
+        Admittedly, the title for this section is very much thanks to one of the first
+        items\cite{Seacord} I read sections of while creating this document. The analogy for 
+        development in terms of security could not be more apt for a large portion of the development 
+        community.
 
-        Why cover this topic? As a security enthusiast and now developer, I often found myself 
+        Why cover this topic? As a security enthusiast and developer, I often found myself 
         looking at a system left untouched until absolutely required, the design choices, logic and
         knowledge of the language it was written in left with the author. Commonly a requirement 
         for a hotfix was/is needed in a number of this circumstances as a number of critical 
         business services and resources may rely on the system in question.
 
-        For clarity, I should note that most of these systems only date to the VB6/VB.NET era, suggesting
-        and age of roughly 15-20 years at oldest. I look forward to the day of encountering some
-        fortran, cobol, pascal or c into the future.
-        Knowing some of the most critical systems in the world run on these languages as a base
-        gives cause for concern, but is our concern well founded and have modern languages 
-        developed enough to allow us to be comfortable into the future?
+        A large portion of this paper will focus around the more common exploited vectors of 
+        web applications, however the vectors commonly exploited in web application settings are
+        commonly exploitable in a desktop application setting, this becomes more and more important 
+        to remember as large numbers of commonly used software move to enable cross platform compatibility 
+        by utilizing technologies such as Electron\cite{ElectronFramework}.
+
+        Security as a serious concern is only just now becoming much more "mainstream" to companies than 
+        it had previously been, movements pushing HTTPS such as Lets Encrypt\cite{LetsEncrypt} or high profile
+        individuals such as Troy Hunt\cite{TroyHuntHttpsIsEasy} have aided the process of mitigating 
+        some of the most easily exploited vectors such as MiTM attacks on unencrypted communications, a 
+        plethora of cybersecurity issues however still remain present in modern organisations, with the 
+        potential damage to both organisation and individual such as recent breaches in: Sony\cite{SonyBreach},
+        Equifax\cite{EquifaxBreach} and a number of other recent high profile breaches of modern history.
 
     \subsection{Tripping Over}
+        Security in programming \sout{can be a} \textit{is} hard beast to tame. Some languages arguably do much better
+        in avoiding accidental issues from being caused by users new to the language or unskilled in 
+        understanding potential issues with the code they have written.
         We can certainly critique early languages for the level of access to the machine they allow 
         a user, without careful consideration in design and a well founded knowledge in the language 
         used issues notorious of early languages. However, in this day and age of highly abstracted 
         languages and frameworks have we traded old demons for new, or do we really have more safety
         in our computing goals?
+
+        As suggested by Wheeler:\cite{Wheeler} 
+        \begin{displayquote}
+            Many programmers don’t intend to write insecure code - but do anyway.
+        \end{displayquote}
 
     \newpage
 
