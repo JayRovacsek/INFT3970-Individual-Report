@@ -1,11 +1,11 @@
 \documentclass[
     a4paper,
     12pt,
-    twocolumn,
+    % twocolumn,
     headings=normal
-]{scrreprt}
+]{article}
     \usepackage{url}
-    \usepackage[margin=1.0in]{geometry}
+    \usepackage[margin=0.8in]{geometry}
     \usepackage{amssymb}
     \usepackage{enumerate}
     \usepackage{enumitem}
@@ -16,7 +16,7 @@
     \usepackage{hyperref}
     \usepackage{listings}
     \usepackage{fancybox}
-    \usepackage{lstautogobble}
+    \usepackage{listings,lstautogobble}    
     \usepackage{titling}
     \usepackage{pdflscape}
     \usepackage[english]{babel}
@@ -71,6 +71,14 @@
         tabsize=3
     }
 
+    % Default fixed font does not support bold face
+    \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+    \DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+    \definecolor{deepblue}{rgb}{0,0,0.5}
+    \definecolor{deepred}{rgb}{0.6,0,0}
+    \definecolor{deepgreen}{rgb}{0,0.5,0}
+
     \begin{document}
 
     \begin{titlingpage}
@@ -111,7 +119,7 @@
 
     \subsection{Tripping Over}
         Security in programming \sout{can be a} \textit{is} hard beast to tame. Some languages arguably do much better
-        in avoiding accidental issues from being caused by users new to the language or unskilled in 
+        in avoiding issues being caused by users new to the language or unskilled in 
         understanding potential issues with the code they have written.
         We can certainly critique early languages for the level of access to the machine they allow 
         a user, without careful consideration in design and a well founded knowledge in the language 
@@ -125,18 +133,101 @@
         \end{displayquote}
 
     \newpage
+    \section{Common Issues in all Languages}
+        \subsection{User Input Sanitisation}
+            User input sanitisation 
 
-    \section{The Most Dangerous Component of Computing}
-    The apparent and dangerous component of computing is never the computer. Users are terrible,
-    will break anything and everything possible and every human is a user. Seasoned veterans of
-    technology or never used a piece of electronics, every human is amazingly fallible in comparison 
-    to the machine they attempt to drive.
+        \subsection{ReDoS}
+            Given the requirement for string filtering is extremely common in all applications,
+            ReDoS or Regex Denial Of Service\cite{ReDoS} vulnerabilities are a very real threat in application security.
+            A number of common defenses can be used against ReDoS attacks, application of 
+            which are extremely simple:
+            \begin{enumerate}
+                \item Atomic grouping in Regex
+                \item Regex lifetime limits
+                \item Sanitisation of input (Although this defeats the reasons to allow for
+                Regex patterns to be used and is very easy to not implement correctly)
+            \end{enumerate}
 
-    To avoid heading down the tangent of human computer interaction intricacies, the coverage of
-    human issues in modern and mature languages must be covered.
+            \subsubsection{Atomic Grouping}
+                Atomic grouping in Regex is a group that when Regex is no longer utilising 
+                the group is thrown away, and any tokens, or record of the grouping are discarded.
+            \subsubsection{Regex Lifetime Limits}
+                Lifetime limits are extremely simple in design, a regex process is allowed only 
+                a set amount of time in which it can perform its task. Failure to meet this 
+                leading to the process being killed.
+            \subsubsection{Sanitisation of input}
+                This solution to Regex patterns does go very much against the reasoning of 
+                using Regex in the first place, but has some valid uses cases:\\
+                Consider a user sign-up form on a webpage, the user isn't searching, but 
+                using anything but Regex in this setting would be pure nightmare fuel for 
+                any developer. A quick search of what patterns to use would yield pages such as
+                regular-expressions.info\cite{RegularExpressions.info} and you'd quickly realise
+                the rabbit-hole for a suitable Regex statement could be:
+                \begin{verbatim}
+\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b
+                \end{verbatim}
+
+                But just as easily, it could be: 
+
+                \begin{verbatim}
+\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*
+ |  "(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]
+      |  \\[\x01-\x09\x0b\x0c\x0e-\x7f])*")
+@ (?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?
+  |  \[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}
+       (?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:
+          (?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]
+          |  \\[\x01-\x09\x0b\x0c\x0e-\x7f])+)
+     \])\z
+                \end{verbatim}
+                As suggested by Goyvaerts\cite{RegularExpressions.info}:
+                \begin{displayquote}
+                    So even when following official standards, there are still trade-offs to be made. Don't blindly copy regular expressions from online libraries or discussion forums. Always test them on your own data and with your own applications.
+                \end{displayquote}
+                As shown by a simple python script:
+
+                \newcommand\pythonstyle{\lstset{
+                    language=Python,
+                    basicstyle=\ttm,
+                    otherkeywords={self},
+                    keywordstyle=\ttb\color{deepblue},
+                    emph={
+                        __name__,
+                        __init__,
+                        },
+                    emphstyle=\ttb\color{deepred},
+                    stringstyle=\color{deepgreen},
+                    breaklines=true,
+                    breakatwhitespace=false,
+                    frame=tb,
+                    showstringspaces=false,
+                    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+                    }}
+                
+                    % Python environment
+                    \lstnewenvironment{python}[1][]
+                    {
+                    \pythonstyle
+                    \lstset{#1}
+                    }
+                    {}
+                
+                    % Python for external files
+                    \newcommand\pythonexternal[2][]{{
+                        \pythonstyle
+                        \lstinputlisting[#1]{#2}}}
+            
+                \pythonexternal{Resources/regex.py}
+
+                A simple checking of group bonds alone costs almost twice the 
+                time to be executed:
+                \begin{itemize}
+                    \item Simple match: 0.0001652240753173828 seconds
+                    \item Complex match: 0.00030231475830078125 seconds
+                \end{itemize}
 
     \newpage
-
     \section{Modern Language Issues}
 
     \newpage
