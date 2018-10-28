@@ -38,7 +38,7 @@
     \setlength{\parskip}{\baselineskip}
 
     \title{Secure Coding Practices:
-    \protect\\A General Guideline}
+    \protect\\A General Outline}
     \author{
         Jay Rovacsek
         \texttt{c3146220@uon.edu.au}\\
@@ -54,7 +54,8 @@
     }
     \pagenumbering{arabic}
 
-    \lstset{frame=tb,
+    \lstdefinestyle{cplusplus}{
+        frame=tb,
         language=c++,
         aboveskip=2mm,
         belowskip=2mm,
@@ -70,6 +71,58 @@
         breakatwhitespace=true,
         tabsize=3
     }
+
+    \lstdefinestyle{sharpc}{
+        language=[Sharp]C,
+        aboveskip=2mm,
+        belowskip=2mm,
+        columns=flexible,
+        basicstyle=\small,
+        commentstyle=\color{gray},
+        otherkeywords={self},
+        keywordstyle=\color{deepblue},
+        stringstyle=\color{deepgreen},
+        emphstyle=\color{deepred},
+        numbers=left,
+        numberstyle=\small,
+        breaklines=true,
+        breakatwhitespace=true,
+        frame=tblr,
+        showstringspaces=false,
+        autogobble=true,
+        rulecolor=\color{black}
+        }
+
+    \lstdefinestyle{golang}{
+        language=Go,
+        frame=tb,
+        aboveskip=2mm,
+        belowskip=2mm,
+        showstringspaces=false,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        numbers=none,
+        numberstyle=\tiny\color{gray},
+        keywordstyle=\color{blue},
+        commentstyle=\color{dkgreen},
+        stringstyle=\color{mauve},
+        breaklines=true,
+        breakatwhitespace=true,
+        tabsize=3
+    }
+
+    % Python environment
+    \lstnewenvironment{python}[1][]
+    {
+    \pythonstyle
+    \lstset{#1}
+    }
+    {}
+
+    % Python for external files
+    \newcommand\pythonexternal[2][]{{
+        \pythonstyle
+        \lstinputlisting[#1]{#2}}}
 
     % Default fixed font does not support bold face
     \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
@@ -132,12 +185,45 @@
             Many programmers don’t intend to write insecure code - but do anyway.
         \end{displayquote}
 
+
     \newpage
-    \section{Common Issues in all Languages}
+    \section{What can go Wrong?}
+        Most developers aren't developers to focus on security, they are creating solutions to 
+        problems in order to allow for some benefit to the owner of the software, this could 
+        be entertainment, productivity, sales increases or many other reasons.
+
+        But security as a base concept is more important than ever ever due to the nature of
+        our increasingly connected world. Interestingly enough the attitude I've encountered 
+        within a number of development circles could be described as poor at best;
+        \begin{displayquote}
+            "Security is a block to my creative outlet, security just gets in the way"
+        \end{displayquote}
+        I won't cite the source of this statement, but I did hear this from a paid software developer
+        before and it has stuck with me since.
+
+        \subsection{Recent Prolific Breaches Caused By Software Design}
+            A number of recent breaches can be used as good examples of why this topic is highly 
+            important:
+            \begin{itemize}
+                \item Equifax Breach 2017 (Estimated 143M individuals records leaked)\cite{EquifaxFTC}
+                Caused by CVE-2017-5638\cite{CVE-2017-5638} Python \hyperref[sec:PythonApacheStruts]{\color{blue}POC}\cite{struts-pwn}
+                \item Yahoo Breach 2014 (Over 500M Accounts Compromised)\cite{Yahoo-Breach} Caused 
+                by a mixture of unhashed/salted secrets in DB and using insecure hashing algorithm 
+                (MD5) easily broken by multiple toolsets\cite{John-The-Ripper}
+                \item Uber Breach 2016 (57M Users and 600,000 Drivers Data Exposed)\cite{}
+                \item Ashley Maddison - 
+                \item LinkedIn
+                \item Jailbreaks
+                \item Switch/IoS browser exploit 
+            \end{itemize}
+
+
+    \newpage
+    \section{Common Issues in most Languages}
         \subsection{User Input Sanitisation}
             User input sanitisation 
 
-        \subsection{ReDoS}
+        \subsection{ReDoS / Regex Denial Of Service}
             Given the requirement for string filtering is extremely common in all applications,
             ReDoS or Regex Denial Of Service\cite{ReDoS} vulnerabilities are a very real threat in application security.
             A number of common defenses can be used against ReDoS attacks, application of 
@@ -204,19 +290,6 @@
                     showstringspaces=false,
                     postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
                     }}
-                
-                    % Python environment
-                    \lstnewenvironment{python}[1][]
-                    {
-                    \pythonstyle
-                    \lstset{#1}
-                    }
-                    {}
-                
-                    % Python for external files
-                    \newcommand\pythonexternal[2][]{{
-                        \pythonstyle
-                        \lstinputlisting[#1]{#2}}}
             
                 \pythonexternal{Resources/regex.py}
 
@@ -235,5 +308,13 @@
 
     \newpage
     \printbibliography
+
+    \newpage
+    \appendix
+    \section{Appendix}
+        \subsection{Proof Of Concept Code}
+        \label{sec:PythonApacheStruts}
+            \pythonexternal{Resources/struts-pwn/struts-pwn.py}
+
 
     \end{document}
