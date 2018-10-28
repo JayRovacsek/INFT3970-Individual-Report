@@ -1,11 +1,10 @@
 \documentclass[
     a4paper,
-    12pt,
-    % twocolumn,
-    headings=normal
+    12pt
 ]{article}
     \usepackage{url}
     \usepackage[margin=0.8in]{geometry}
+    \usepackage{float}   
     \usepackage{amssymb}
     \usepackage{enumerate}
     \usepackage{enumitem}
@@ -14,13 +13,11 @@
     \usepackage{xcolor}
     \usepackage{pdfpages}
     \usepackage{hyperref}
-    \usepackage{listings}
     \usepackage{fancybox}
     \usepackage{listings,lstautogobble}    
     \usepackage{titling}
     \usepackage{pdflscape}
     \usepackage[english]{babel}
-    \usepackage{csquotes}
     \usepackage{comment}
     \usepackage[normalem]{ulem}
     \usepackage[
@@ -52,10 +49,15 @@
     citecolor=red,
     linktoc=section,
     }
+
+    \definecolor{deepblue}{rgb}{0,0,0.5}
+    \definecolor{deepred}{rgb}{0.6,0,0}
+    \definecolor{deepgreen}{rgb}{0,0.5,0}
+
     \pagenumbering{arabic}
 
     \lstdefinestyle{cplusplus}{
-        frame=tb,
+        frame=tblr,
         language=c++,
         aboveskip=2mm,
         belowskip=2mm,
@@ -64,11 +66,12 @@
         basicstyle={\small\ttfamily},
         numbers=none,
         numberstyle=\tiny\color{gray},
-        keywordstyle=\color{blue},
-        commentstyle=\color{dkgreen},
-        stringstyle=\color{mauve},
+        keywordstyle=\color{deepblue},
+        stringstyle=\color{deepgreen},
+        emphstyle=\color{deepred},
         breaklines=true,
-        breakatwhitespace=true,
+        breakatwhitespace=false,
+        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
         tabsize=3
     }
 
@@ -79,23 +82,23 @@
         columns=flexible,
         basicstyle=\small,
         commentstyle=\color{gray},
-        otherkeywords={self},
+        numberstyle=\tiny\color{gray},
         keywordstyle=\color{deepblue},
         stringstyle=\color{deepgreen},
         emphstyle=\color{deepred},
         numbers=left,
-        numberstyle=\small,
         breaklines=true,
-        breakatwhitespace=true,
+        breakatwhitespace=false,
         frame=tblr,
         showstringspaces=false,
+        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
         autogobble=true,
         rulecolor=\color{black}
-        }
+    }
 
     \lstdefinestyle{golang}{
         language=Go,
-        frame=tb,
+        frame=tblr,
         aboveskip=2mm,
         belowskip=2mm,
         showstringspaces=false,
@@ -103,34 +106,59 @@
         basicstyle={\small\ttfamily},
         numbers=none,
         numberstyle=\tiny\color{gray},
-        keywordstyle=\color{blue},
-        commentstyle=\color{dkgreen},
-        stringstyle=\color{mauve},
+        keywordstyle=\color{deepblue},
+        stringstyle=\color{deepgreen},
+        emphstyle=\color{deepred},
         breaklines=true,
-        breakatwhitespace=true,
+        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+        breakatwhitespace=false,
         tabsize=3
     }
 
-    % Python environment
-    \lstnewenvironment{python}[1][]
-    {
-    \pythonstyle
-    \lstset{#1}
+    \lstdefinestyle{python}{
+        language=Python,
+        frame=tblr,
+        aboveskip=2mm,
+        belowskip=2mm,
+        showstringspaces=false,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        numbers=none,
+        numberstyle=\tiny\color{gray},
+        keywordstyle=\color{deepblue},
+        stringstyle=\color{deepgreen},
+        emphstyle=\color{deepred},
+        breaklines=true,
+        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+        breakatwhitespace=false,
+        tabsize=3
     }
-    {}
+
+    \newcommand\pythonstyle{
+        \lstset{style=python}
+    }
 
     % Python for external files
     \newcommand\pythonexternal[2][]{{
         \pythonstyle
         \lstinputlisting[#1]{#2}}}
 
+    % Go environment
+    \lstnewenvironment{Python}[1][]
+    {
+    \pythonstyle
+    \lstset{#1}
+    }
+    {}
+
+    % Go for external files
+    \newcommand\gostyleexternal[2][]{{
+        \gostyle
+        \lstinputlisting[#1]{#2}}}
+
     % Default fixed font does not support bold face
     \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
     \DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
-
-    \definecolor{deepblue}{rgb}{0,0,0.5}
-    \definecolor{deepred}{rgb}{0.6,0,0}
-    \definecolor{deepgreen}{rgb}{0,0.5,0}
 
     \begin{document}
 
@@ -167,8 +195,8 @@
         individuals such as Troy Hunt\cite{TroyHuntHttpsIsEasy} have aided the process of mitigating 
         some of the most easily exploited vectors such as MiTM attacks on unencrypted communications, a 
         plethora of cybersecurity issues however still remain present in modern organisations, with the 
-        potential damage to both organisation and individual such as recent breaches in: Sony\cite{SonyBreach},
-        Equifax\cite{EquifaxBreach} and a number of other recent high profile breaches of modern history.
+        potential damage to both organisation and individual such as recent breaches in: Sony\cite{Sony-Breach},
+        Equifax\cite{Equifax-Breach} and a number of other recent high profile breaches of modern history.
 
     \subsection{Tripping Over}
         Security in programming \sout{can be a} \textit{is} hard beast to tame. Some languages arguably do much better
@@ -187,7 +215,7 @@
 
 
     \newpage
-    \section{What can go Wrong?}
+    \section{What Can Go Wrong?}
         Most developers aren't developers to focus on security, they are creating solutions to 
         problems in order to allow for some benefit to the owner of the software, this could 
         be entertainment, productivity, sales increases or many other reasons.
@@ -201,20 +229,19 @@
         I won't cite the source of this statement, but I did hear this from a paid software developer
         before and it has stuck with me since.
 
-        \subsection{Recent Prolific Breaches Caused By Software Design}
+        \subsection{Recent Prolific Breaches Caused By Poor Development Habits}
             A number of recent breaches can be used as good examples of why this topic is highly 
             important:
             \begin{itemize}
-                \item Equifax Breach 2017 (Estimated 143M individuals records leaked)\cite{EquifaxFTC}
-                Caused by CVE-2017-5638\cite{CVE-2017-5638} Python \hyperref[sec:PythonApacheStruts]{\color{blue}POC}\cite{struts-pwn}
+                \item Equifax Breach 2017 (Estimated 143M individuals records leaked)\cite{Equifax-FTC}
+                Caused by CVE-2017-5638\cite{CVE-2017-5638} Python POC\cite{POC-CVE-2017-5638}
                 \item Yahoo Breach 2014 (Over 500M Accounts Compromised)\cite{Yahoo-Breach} Caused 
                 by a mixture of unhashed/salted secrets in DB and using insecure hashing algorithm 
                 (MD5) easily broken by multiple toolsets\cite{John-The-Ripper}
-                \item Uber Breach 2016 (57M Users and 600,000 Drivers Data Exposed)\cite{}
-                \item Ashley Maddison - 
-                \item LinkedIn
-                \item Jailbreaks
-                \item Switch/IoS browser exploit 
+                \item Uber Breach 2016 (57M Users and 600,000 Drivers Data Exposed)\cite{Uber-Breach}
+                \item Nintendo Switch Jailbreak, uses CVE-2016-4657\cite{CVE-2016-4657} to 
+                execute arbitrary code\cite{POC-CVE-2016-4657}.
+                
             \end{itemize}
 
 
@@ -223,6 +250,7 @@
         \subsection{User Input Sanitisation}
             User input sanitisation 
 
+        \newpage
         \subsection{ReDoS / Regex Denial Of Service}
             Given the requirement for string filtering is extremely common in all applications,
             ReDoS or Regex Denial Of Service\cite{ReDoS} vulnerabilities are a very real threat in application security.
@@ -254,6 +282,7 @@
 \b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b
                 \end{verbatim}
 
+                \newpage
                 But just as easily, it could be: 
 
                 \begin{verbatim}
@@ -272,33 +301,20 @@
                     So even when following official standards, there are still trade-offs to be made. Don't blindly copy regular expressions from online libraries or discussion forums. Always test them on your own data and with your own applications.
                 \end{displayquote}
                 As shown by a simple python script:
-
-                \newcommand\pythonstyle{\lstset{
-                    language=Python,
-                    basicstyle=\ttm,
-                    otherkeywords={self},
-                    keywordstyle=\ttb\color{deepblue},
-                    emph={
-                        __name__,
-                        __init__,
-                        },
-                    emphstyle=\ttb\color{deepred},
-                    stringstyle=\color{deepgreen},
-                    breaklines=true,
-                    breakatwhitespace=false,
-                    frame=tb,
-                    showstringspaces=false,
-                    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-                    }}
             
                 \pythonexternal{Resources/regex.py}
 
                 A simple checking of group bounds alone costs almost twice the 
                 time to be executed:
-                \begin{itemize}
-                    \item Simple match: 0.0001652240753173828 seconds
-                    \item Complex match: 0.00030231475830078125 seconds
-                \end{itemize}
+                \begin{table}[H]
+                    \centering
+                    \begin{tabular}{|l|l|}
+                    \hline
+                                  & Time Taken (Seconds)   \\ \hline
+                    Simple Match  & 0.0001652240753173828  \\ \hline
+                    Complex Match & 0.00030231475830078125 \\ \hline
+                    \end{tabular}
+                    \end{table}
 
     \newpage
     \section{Modern Language Issues}
@@ -313,8 +329,6 @@
     \appendix
     \section{Appendix}
         \subsection{Proof Of Concept Code}
-        \label{sec:PythonApacheStruts}
-            \pythonexternal{Resources/struts-pwn/struts-pwn.py}
 
 
     \end{document}
