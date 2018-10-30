@@ -70,6 +70,25 @@
         tabsize=3
     }
 
+    \lstdefinestyle{php}{
+        frame=tblr,
+        language=php,
+        aboveskip=2mm,
+        belowskip=2mm,
+        showstringspaces=false,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        numbers=none,
+        numberstyle=\tiny\color{gray},
+        keywordstyle=\color{deepblue},
+        stringstyle=\color{deepgreen},
+        emphstyle=\color{deepred},
+        breaklines=true,
+        breakatwhitespace=false,
+        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+        tabsize=3
+    }
+
     \lstdefinestyle{sharpc}{
         language=[Sharp]C,
         aboveskip=2mm,
@@ -281,8 +300,6 @@
                     \item Limitation of return data in queries.
                 \end{itemize}
 
-
-
         \newpage
         \subsection{ReDoS / Regex Denial Of Service}
             Given the requirement for string filtering is extremely common in all applications,
@@ -345,10 +362,57 @@
                     Simple Match  & 0.0001652240753173828  \\ \hline
                     Complex Match & 0.00030231475830078125 \\ \hline
                     \end{tabular}
-                    \end{table}
+                \end{table}
+
+                While these values don't seem extremely costly, they can quickly become extremely heavy in
+                terms of computation required.
 
     \newpage
     \section{Modern Language Issues}
+        \subsection{Issues Common in Python}
+            Python recently proved to be one of the fastest growing languages based on responses to 
+            the stackoverflow developer survey\cite{Stackoverflow-Survey} and while python is close to 
+            twenty years old, it is considered a new language compared to the likes of C or Perl.
+
+            As suggested by Wheeler\cite{Wheeler} a number of issues are inherent using python:
+            \subsubsection{Lack Of Compile Time Checking}
+                Issues related to the lack of compile time checking in python are a serious security
+                concern as standard static analysis tools for auditing code for security issues 
+                have a much more difficult time determining the suitability of code.
+                \\
+                It must be noted however, that unit tests and dynamic analysis / fuzzing can prove
+                to be an excellent method to check python code for issues.
+        \subsection{Issues Common in PHP}
+            PHP is not my area of expertise, however a large number of recent exploits using 
+            flaws in PHP have become a trend with the uptake of content generators such as WordPress.
+            \subsubsection{Injection: register\_globals = ON}
+                Register globals is a common resolution to many issues in developing PHP, however
+                commonly it is left enabled in development or due to inexperience assumed to be okay to 
+                leave set on,
+                
+                \newpage
+
+                The issue lies in any quest that depends on one of these globals set, say we are 
+                checking if a user is an admin or not before allowing access to a section/page:
+
+                \lstset{style=php}
+                \begin{lstlisting}
+                    if($admin) 
+                    { 
+                    // let them in 
+                    } 
+                    else 
+                    { 
+                    // kick them out 
+                    }
+                \end{lstlisting}\cite{Devshed-PHP}
+
+                Issues arise when a user can inject this global into the request via:
+
+                \begin{lstlisting}
+                    script.php?admin=1
+                \end{lstlisting}
+
 
     \newpage
     \section{Mature Language Issues}
