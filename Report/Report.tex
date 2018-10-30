@@ -1,10 +1,7 @@
-\documentclass[
-    a4paper,
-    12pt
-]{article}
+\documentclass{IEEEtran}
     \usepackage{url}
-    \usepackage[margin=0.8in]{geometry}
-    \usepackage{float}   
+    \usepackage[margin=0.6in]{geometry}
+    \usepackage{float}
     \usepackage{amssymb}
     \usepackage{enumerate}
     \usepackage{enumitem}
@@ -31,8 +28,6 @@
     \renewcommand\maketitlehookd{\vfill\null}
 
     \graphicspath{ {Images/} }
-
-    \setlength{\parskip}{\baselineskip}
 
     \title{Secure Coding Practices:
     \protect\\A General Outline}
@@ -166,10 +161,12 @@
         \maketitle
     \end{titlingpage}
     \newpage
+    \onecolumn
 
     \tableofcontents
 
     \newpage
+    \twocolumn
 
     \section{Preface}
     \subsection{Running with Scissors}
@@ -189,13 +186,15 @@
         commonly exploitable in a desktop application setting, this becomes more and more important 
         to remember as large numbers of commonly used software move to enable cross platform compatibility 
         by utilizing technologies such as Electron\cite{ElectronFramework}.
+        That is, not to suggest that the concerns of application security has not been 
+        discussed for a number of decades\cite{Booysena1995}
 
         Security as a serious concern is only just now becoming much more "mainstream" to companies than 
-        it had previously been, movements pushing HTTPS such as Lets Encrypt\cite{LetsEncrypt} or high profile
+        it had previously been\cite{howard2004building}, movements pushing HTTPS such as Lets Encrypt\cite{LetsEncrypt} or high profile
         individuals such as Troy Hunt\cite{TroyHuntHttpsIsEasy} have aided the process of mitigating 
         some of the most easily exploited vectors such as MiTM attacks on unencrypted communications, a 
         plethora of cybersecurity issues however still remain present in modern organisations, with the 
-        potential damage to both organisation and individual such as recent breaches in: Sony\cite{Sony-Breach},
+        potential damage to both organisation and individual\cite{apvrille2005secure} such as recent breaches in: Sony\cite{Sony-Breach},
         Equifax\cite{Equifax-Breach} and a number of other recent high profile breaches of modern history.
 
     \subsection{Tripping Over}
@@ -214,14 +213,13 @@
         \end{displayquote}
 
 
-    \newpage
     \section{What Can Go Wrong?}
         Most developers aren't developers to focus on security, they are creating solutions to 
         problems in order to allow for some benefit to the owner of the software, this could 
         be entertainment, productivity, sales increases or many other reasons.
 
         But security as a base concept is more important than ever ever due to the nature of
-        our increasingly connected world. Interestingly enough the attitude I've encountered 
+        our increasingly connected world\cite{misovskisecure}. Interestingly enough the attitude I've encountered 
         within a number of development circles could be described as poor at best;
         \begin{displayquote}
             "Security is a block to my creative outlet, security just gets in the way"
@@ -244,11 +242,46 @@
                 
             \end{itemize}
 
-
-    \newpage
     \section{Common Issues in most Languages}
-        \subsection{User Input Sanitisation}
-            User input sanitisation 
+        \subsection{Injection}
+            No wide-spread languages in use currently offer an 'out of the box' level of 
+            protection against maliciously crafted input by users, generally these issues are 
+            mitigated or defended against decently by developers; input usually will have some level
+            of constraint on the data.
+            This however isn't to say that there are better methods to handling user input.
+            \\
+            Methods of defense will generally point to either parametrization or limitation of scope 
+            with the input data.
+
+            \subsubsection{Attack Vectors}
+                SQL will generally be the best example of this issue, legacy systems will not have 
+                the ability to use APIs offered by the language the program was written in or 
+                have attempts custom written by the original author that could have missed some 
+                potential vectors.
+                \\
+                Consider the following:
+
+                \lstset{style=sharpc}
+                \begin{lstlisting}
+                    String query = "SELECT * FROM Login WHERE loginId='" + request.getParameter("id") + "'";
+                \end{lstlisting}
+
+                With this given code, an attacker can easily suggest their username is:
+                ' or '1'='1. which in this case should return all user accounts 
+                irrespective of if the user has access or not to this data.
+
+            \subsubsection{Prevention}
+                Prevention as suggested above is trivial, some, many or best of all, all 
+                of the following suggestions would be recommended:
+                \begin{itemize}
+                    \item Validation of Input (Can be fallible in a number of cases)
+                    \item Parametrization of all non-trusted zones, even better of all
+                    zones.
+                    \item Use of Stored Procedures
+                    \item Limitation of return data in queries.
+                \end{itemize}
+
+
 
         \newpage
         \subsection{ReDoS / Regex Denial Of Service}
@@ -278,11 +311,11 @@
                 any developer. A quick search of what patterns to use would yield pages such as
                 regular-expressions.info\cite{RegularExpressions.info} and you'd quickly realise
                 the rabbit-hole for a suitable Regex statement could be:
+
                 \begin{verbatim}
 \b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b
                 \end{verbatim}
 
-                \newpage
                 But just as easily, it could be: 
 
                 \begin{verbatim}
@@ -298,14 +331,12 @@
                 \end{verbatim}
                 As suggested by Goyvaerts\cite{RegularExpressions.info}:
                 \begin{displayquote}
-                    So even when following official standards, there are still trade-offs to be made. Don't blindly copy regular expressions from online libraries or discussion forums. Always test them on your own data and with your own applications.
+                    "So even when following official standards, there are still trade-offs to be made. Don't blindly copy regular expressions from online libraries or discussion forums. Always test them on your own data and with your own applications."
                 \end{displayquote}
-                As shown by a simple python script:
-            
-                \pythonexternal{Resources/regex.py}
 
-                A simple checking of group bounds alone costs almost twice the 
-                time to be executed:
+                As shown by a \hyperref[sec:PyReDoS]{\color{blue}simple python script} the checking of 
+                group bounds alone costs almost twice the time to be executed and realistically 
+                does not give the application any more weight in being more accurate.
                 \begin{table}[H]
                     \centering
                     \begin{tabular}{|l|l|}
@@ -326,9 +357,14 @@
     \printbibliography
 
     \newpage
+    \onecolumn
     \appendix
     \section{Appendix}
         \subsection{Proof Of Concept Code}
-
+            \subsubsection{Python ReDoS}
+            \label{sec:PyReDoS}
+            \_
+            \medskip
+                \pythonexternal{Resources/regex.py}
 
     \end{document}
