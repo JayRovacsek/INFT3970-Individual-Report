@@ -300,6 +300,22 @@
                     \item Limitation of return data in queries.
                 \end{itemize}
 
+        \subsection{Race Conditions}
+            Race conditions can lead to serious security issues if multiple processes mutate the same 
+            object/memory or expect immutability. A race condition is when an application or many 
+            applications modify the same memory/object without having context of the other applications,
+            leading to a state in both/all applications where the expected execution paths may be 
+            modified, or the modification may cause a crash due to unexpected behavior of the 
+            memory/object. 
+
+            As shown in the \hyperref[fig:race-condition]{\color{blue}figure} by \cite{Florian-Kugler}, a race condition can 
+            lead to corruption of expected values.
+            \begin{figure}[h]
+                \includegraphics[width=\linewidth]{Images/race-condition.png}
+                \caption{Basic Race Condition Example}
+                \label{fig:race-condition}
+              \end{figure}
+
         \newpage
         \subsection{ReDoS / Regex Denial Of Service}
             Given the requirement for string filtering is extremely common in all applications,
