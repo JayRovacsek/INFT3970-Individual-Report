@@ -263,6 +263,7 @@
 
     \section{Common Issues in most Languages}
         \subsection{Injection}
+            \label{sec:injection}
             No wide-spread languages in use currently offer an 'out of the box' level of 
             protection against maliciously crafted input by users, generally these issues are 
             mitigated or defended against decently by developers; input usually will have some level
@@ -337,6 +338,43 @@
             that using goroutines with pointers to a wait group that will ensure threads spawned
             from a goroutine are not deadlocked and have garbage collection performed on exit 
             using a defer method.
+
+        \subsection{Improper Error Handling}
+            Handling of errors can commonly be implemented incorrectly, most languages now off the 
+            ability to check in specified contexts if an error occurs and apply code specifically 
+            for the case an error occurs, this is excellent for developers, however can prove to 
+            expose too much information in some settings. 
+            \medskip
+            \\
+            Take the example of a simple website, registration of a user or an attempted login is 
+            greeted by an error page served by the instance of IIS hosting the application:
+
+            \begin{verbatim}
+You have an error in your SQL syntax; 
+check the manual that corresponds to your 
+MySQL server version for the right 
+syntax to use near Donoghue
+            \end{verbatim}
+
+            For most users, this is a frustrating error that shouldn't occur, however malicious 
+            entities will pounce on this information, given we can easily determine the hosting
+            enviroment for a website, it isn't a stretch to assume the username entered: O'Donoghue
+            has caused an error, and quickly we can realise vectors potentially exploitable to gain
+            a foothold in a system as covered in \hyperref[sec:injection]{\color{blue}injection} attacks.
+            \medskip
+            \\
+            Simply, a defined custom page to refer users to in the case of errors is a great method
+            to limit ability for an entity to probe further at a solution, as often, the stack trace
+            is only a small part of default error pages, often including full pathing of the 
+            offending source code on the host machine, the version of add-on/package affected and 
+            the hosting system.
+
+        \subsection{Insecure Configuration and Using }
+            Revealing information about packages, language version and other data points suggested above can lead to detection of either insecure of out-of-date configurations 
+            which reveal further attack vectors on a system. This isn't a suggestion on hiding 
+            out-of-date packages or language versions but instead a recommendation to always keep
+            up to date with the most recently released versions of both languages but also any 
+            packages or imported third party libraries used.
 
         \newpage
         \subsection{ReDoS / Regex Denial Of Service}
