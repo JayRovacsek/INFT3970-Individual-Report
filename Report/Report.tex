@@ -413,9 +413,68 @@
                     script.php?admin=1
                 \end{lstlisting}
 
+                As suggested again by Wheeler\cite{Wheeler}, using version 4.2.0 of PHP or greater has 
+                features enabled that mitigate most of the danger around this issue.
 
     \newpage
     \section{Mature Language Issues}
+        \subsection{C/C++}
+            \subsubsection{Overflow/Underflow Issues}
+                C and C++ are notorious for the issue of overflows, overflows can easily 
+                cause potential vectors for malicious entities to perform a number of 
+                attacks.
+                The most common attacks on overflow issues include arbitrary code execution,
+                a basic example thanks to lapk\cite{lapk}:
+
+                \lstset{style=cplusplus}
+                \begin{lstlisting}
+                    #include <iostream>
+                    int main( void )
+                    {
+                    int authentication = 0;
+                    char cUsername[ 10 ];
+                    char cPassword[ 10 ];
+
+                    std::cout << "Username: ";
+                    std::cin >> cUsername;
+
+                    std::cout << "Pass: ";
+                    std::cin >> cPassword;
+
+                    if( std::strcmp( cUsername, "admin" ) == 0 && std::strcmp( cPassword, "adminpass" ) == 0 )
+                    {
+                    authentication = 1;
+                    }
+                    if( authentication )
+                    {
+                    std::cout << "Access granted\n";
+                    std::cout << ( char )authentication;
+                    }
+                    else
+                    {
+                    std::cout << "Wrong username and password\n";
+                    }
+
+                    return ( 0 );
+                    }
+                \end{lstlisting}
+
+                Where in this example, no checking of input bounds is performed when the user has 
+                entered data that exceeds the size allocated to username (Char[10]) so as suggested 
+                in lapk's\cite{lapk} example, the input of "0123456789abcdef1" would easily overflow
+                the bounds of the referenced memory. In the case of a compiled x64 binary compiled for 
+                Windows the above code would set authentication to 1 despite the comparisons made between password and the expected value.
+                \\
+                What is curious about the above example, is it also exhibits two other blatant 
+                development flaws: 
+                \begin{itemize}
+                    \item Secrets within source code - easily avoided when stored in a DB or loaded
+                    from a file outside of source control
+                    \item Failure to set authentication = 0 / false when the failure of comparison 
+                    occurred.
+                \end{itemize}
+                While it must be noted that the example is more for educational purposes than how an 
+                application should be written.
 
     \newpage
     \printbibliography
