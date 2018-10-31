@@ -308,13 +308,35 @@
             modified, or the modification may cause a crash due to unexpected behavior of the 
             memory/object. 
 
-            As shown in the \hyperref[fig:race-condition]{\color{blue}figure} by \cite{Florian-Kugler}, a race condition can 
+            As shown in the \hyperref[fig:race-condition]{\color{blue}figure} by Florian Kugler
+            \cite{Florian-Kugler}, a race condition can 
             lead to corruption of expected values.
             \begin{figure}[h]
                 \includegraphics[width=\linewidth]{Images/race-condition.png}
                 \caption{Basic Race Condition Example}
                 \label{fig:race-condition}
-              \end{figure}
+            \end{figure}
+
+            Languages not enforcing mutability/immutability in a manner that enforces best practice 
+            of concurrency are potential breeding grounds for these vectors for attack as we move 
+            rapidly to more and more concurrent computation in most devices as described and 
+            suggested by Herb Sutter\cite{Herb-Sutter} in 2005.
+            \medskip
+            \\
+            Rust\cite{Rust} and Golang\cite{Golang} prove to be exciting examples of the potential
+            of concurrency, while both consuming more memory on systems, they offer languages 
+            that enforce best practice with concurrency\cite{sima2012secure}, and in the case of Rust, immutability and
+            the concept of ownership/borrows of variables/objects which leads to enforcing the 
+            inability to modify the original value, or create copies of the value that do not
+            reflect onto the original value.
+            \medskip
+            \\            
+            Golang implements checking for potential deadlocks, channels which can be locked to send or receive only and job queuing by the use of wait groups for goroutines
+            (effectively a concurrent call to a method that can be awaited or not) leading to 
+            an ability to load a large number of tasks into a queue for processing and knowing 
+            that using goroutines with pointers to a wait group that will ensure threads spawned
+            from a goroutine are not deadlocked and have garbage collection performed on exit 
+            using a defer method.
 
         \newpage
         \subsection{ReDoS / Regex Denial Of Service}
