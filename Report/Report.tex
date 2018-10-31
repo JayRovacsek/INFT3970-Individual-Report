@@ -382,6 +382,7 @@
                 \\
                 It must be noted however, that unit tests and dynamic analysis / fuzzing can prove
                 to be an excellent method to check python code for issues.
+
         \subsection{Issues Common in PHP}
             PHP is not my area of expertise, however a large number of recent exploits using 
             flaws in PHP have become a trend with the uptake of content generators such as WordPress.
@@ -416,7 +417,6 @@
                 As suggested again by Wheeler\cite{Wheeler}, using version 4.2.0 of PHP or greater has 
                 features enabled that mitigate most of the danger around this issue.
 
-    \newpage
     \section{Mature Language Issues}
         \subsection{C/C++}
             \subsubsection{Overflow/Underflow Issues}
@@ -466,7 +466,7 @@
                 Windows the above code would set authentication to 1 despite the comparisons made between password and the expected value.
                 \\
                 What is curious about the above example, is it also exhibits two other blatant 
-                development flaws: 
+                development flaws\cite{OWASP-SCP-Quick-Reference-Guide-v2}: 
                 \begin{itemize}
                     \item Secrets within source code - easily avoided when stored in a DB or loaded
                     from a file outside of source control
@@ -475,6 +475,18 @@
                 \end{itemize}
                 While it must be noted that the example is more for educational purposes than how an 
                 application should be written.
+
+                Overflows and underflows are covered well by the OWASP Secure Coding Practices
+                Reference Guide\cite{OWASP-SCP-Quick-Reference-Guide-v2} and further suggestions 
+                for defenses and good practice include: 
+                \begin{itemize}
+                    \item Truncation of input to fit destination (exceptions may occur here however and values such as passwords should always include as large as possible an allocation rather than truncating data)
+                    \item Avoidance of functions that are considered unsafe, printf, strcat and 
+                    strcpy are all good examples of this in C/C++
+                    \item Ensure all memory that is no longer considered in-scope is cleared, this 
+                    is easier said than done and languages such as Golang\cite{Golang} implement 
+                    excellent methods in which to ensure this function is performed (Defer in Golang)\cite{Golang-Defer}
+                \end{itemize}
 
     \newpage
     \printbibliography
