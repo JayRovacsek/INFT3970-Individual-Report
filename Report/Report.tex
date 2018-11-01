@@ -415,6 +415,7 @@ syntax to use near Donoghue
                 card details which were not owned by secgeek to be deleted.
 
         \newpage
+        \onecolumn
         \subsection{ReDoS / Regex Denial Of Service}
             Given the requirement for string filtering is extremely common in all applications,
             ReDoS or Regex Denial Of Service\cite{ReDoS} vulnerabilities are a very real threat in application security.
@@ -482,6 +483,7 @@ syntax to use near Donoghue
                 terms of computation required.
 
     \newpage
+    \twocolumn
     \section{Modern Language Issues}
         \subsection{Issues Common in Python}
             Python recently proved to be one of the fastest growing languages based on responses to 
@@ -503,11 +505,7 @@ syntax to use near Donoghue
             \subsubsection{Injection: register\_globals = ON}
                 Register globals is a common resolution to many issues in developing PHP, however
                 commonly it is left enabled in development or due to inexperience assumed to be okay to 
-                leave set on,
-                
-                \newpage
-
-                The issue lies in any quest that depends on one of these globals set, say we are 
+                leave set on the issue lies in any quest that depends on one of these globals set, say we are 
                 checking if a user is an admin or not before allowing access to a section/page:
 
                 \lstset{style=php}
