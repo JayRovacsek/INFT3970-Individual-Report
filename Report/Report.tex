@@ -268,7 +268,8 @@
             protection against maliciously crafted input by users, generally these issues are 
             mitigated or defended against decently by developers; input usually will have some level
             of constraint on the data.
-            This however isn't to say that there are better methods to handling user input.
+            This however isn't to say that there are better methods to handling user input as 
+            suggested by Su and Wassermann\cite{su2006essence}
             \\
             Methods of defense will generally point to either parametrization or limitation of scope 
             with the input data.
@@ -300,6 +301,11 @@
                     \item Use of Stored Procedures
                     \item Limitation of return data in queries.
                 \end{itemize}
+
+                Further prevention of such attacks is proactive static analysis of source code,
+                this is extremely cost effective from a time standpoint as the detectability 
+                of injection style attacks is extremely simple. As shown by Martin and Lam\cite{martin2008automatic}
+                automatic generation of XSS and SQL injection attacks can be trivially automated.
 
         \subsection{Race Conditions}
             Race conditions can lead to serious security issues if multiple processes mutate the same 
@@ -591,10 +597,12 @@ syntax to use near Donoghue
                 \end{itemize}
 
     \newpage
+
     \printbibliography
 
     \newpage
     \onecolumn
+
     \appendix
     \section{Appendix}
         \subsection{Proof Of Concept Code}
