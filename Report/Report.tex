@@ -344,12 +344,17 @@
             that using goroutines with pointers to a wait group that will ensure threads spawned
             from a goroutine are not deadlocked and have garbage collection performed on exit 
             using a defer method.
+            \medskip
+            \\
+            Even for systems deemed legacy and only being supported in an extended lifetime setting, 
+            frameworks for debugging and detection of race conditions have existed since the 
+            late eighties\cite{savage1997eraser}\cite{balasundaram1989compile}
 
         \subsection{Improper Error Handling}
             Handling of errors can commonly be implemented incorrectly, most languages now off the 
             ability to check in specified contexts if an error occurs and apply code specifically 
             for the case an error occurs, this is excellent for developers, however can prove to 
-            expose too much information in some settings. 
+            expose too much information in some settings as suggested by Tsipenyuk, Chess and McGraw\cite{tsipenyuk2005seven}
             \medskip
             \\
             Take the example of a simple website, registration of a user or an attempted login is 
@@ -381,7 +386,8 @@ syntax to use near Donoghue
             which reveal further attack vectors on a system. This isn't a suggestion on hiding 
             out-of-date packages or language versions but instead a recommendation to always keep
             up to date with the most recently released versions of both languages but also any 
-            packages or imported third party libraries used.
+            packages or imported third party libraries used as also recommended by Tsipenyuk, 
+            Chess and McGraw\cite{tsipenyuk2005seven}
             \medskip
             \\
             One of the best examples of this problem in recently history is the Equifax breach in which an 
