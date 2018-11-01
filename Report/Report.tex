@@ -382,11 +382,25 @@ syntax to use near Donoghue
             outdated and known vulnerable framework: Apache Struts was used within the technology stack at
             Equifax\cite{Equifax-Breach}, leading to in excess of 140M users data breached with a large portion 
             of the data containing personally identifying information.
-            \medskip
             \\
             The only remedy to this issue is to ensure all systems are updated where possible, and teaching good 
             update habits to users. Sysadmins do not have much of an excuse in today's technology ecosphere with 
             numerous vendor provided or open source options for rolling updates out to numerous computers at once.
+
+        \subsection{Function Level Access Controls}
+            Most languages support either authentication with a defined authentication authority or decorators 
+            for methods to suggest how a function may be accessed, often for the ease of access in development 
+            functions, properties or methods will be marked with static where the language supports such or 
+            unnecessarily marked public. While typically not a flaw that will allow an entity to breach a system without 
+            further vectors to attack, commonly the breach of a system will include a number of exploits chained 
+            in succession to allow an entity to breach the system.
+            \medskip
+            \\
+            \subsubsection{Example}
+                In 2014 a user going by secgeek\cite{secgeek} was able to exploit a lack of access control in the 
+                Twitter Ad system, realizing interception of a request to delete his own credit card number from 
+                the system allowed for modification of the request and a new request with alternate credit 
+                card details which were not owned by secgeek to be deleted.
 
         \newpage
         \subsection{ReDoS / Regex Denial Of Service}
