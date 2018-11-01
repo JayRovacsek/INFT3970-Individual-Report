@@ -257,7 +257,7 @@
                 (MD5) easily broken by multiple toolsets\cite{John-The-Ripper}
                 \item Uber Breach 2016 (57M Users and 600,000 Drivers Data Exposed)\cite{Uber-Breach}
                 \item Nintendo Switch Jailbreak, uses CVE-2016-4657\cite{CVE-2016-4657} to 
-                execute arbitrary code\cite{POC-CVE-2016-4657}.
+                execute arbitrary code.
                 
             \end{itemize}
 
@@ -369,12 +369,24 @@ syntax to use near Donoghue
             offending source code on the host machine, the version of add-on/package affected and 
             the hosting system.
 
-        \subsection{Insecure Configuration and Using }
-            Revealing information about packages, language version and other data points suggested above can lead to detection of either insecure of out-of-date configurations 
+        \subsection{Insecure Configuration / Using Components with Known Vulnerabilities}
+            Revealing information about packages, language version and other data points suggested above can lead 
+            to detection of either insecure of out-of-date configurations 
             which reveal further attack vectors on a system. This isn't a suggestion on hiding 
             out-of-date packages or language versions but instead a recommendation to always keep
             up to date with the most recently released versions of both languages but also any 
             packages or imported third party libraries used.
+            \medskip
+            \\
+            One of the best examples of this problem in recently history is the Equifax breach in which an 
+            outdated and known vulnerable framework: Apache Struts was used within the technology stack at
+            Equifax\cite{Equifax-Breach}, leading to in excess of 140M users data breached with a large portion 
+            of the data containing personally identifying information.
+            \medskip
+            \\
+            The only remedy to this issue is to ensure all systems are updated where possible, and teaching good 
+            update habits to users. Sysadmins do not have much of an excuse in today's technology ecosphere with 
+            numerous vendor provided or open source options for rolling updates out to numerous computers at once.
 
         \newpage
         \subsection{ReDoS / Regex Denial Of Service}
