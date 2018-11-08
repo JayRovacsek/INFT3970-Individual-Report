@@ -1,0 +1,90 @@
+\documentclass[12pt]{article}
+
+\pagestyle{empty}
+
+\usepackage[paper=a4paper]{geometry}
+\usepackage{flowfram,lipsum}
+
+% \newflowframe[<page list>]{<width>}{<height>}{<x>}{<y>}[<label>]
+\newflowframe{10cm}{8cm}{4cm}{16cm}% Top of page
+\newflowframe{10cm}{8cm}{4cm}{7.5cm}% Middle of page
+\newflowframe{10cm}{8cm}{4cm}{-1cm}% Bottom of page
+
+\setallflowframes{border=plain}% Add frames to each flow frame
+
+\begin{document}
+\section{What are these boards?}
+The boards used in this project are the ESP12-E.
+\\
+Just a quick show of hands, who here owns a Raspberry Pi?
+\\
+Who has used or toyed with a Raspberry Pi before?
+\\
+For this project we considered using the Pi as our board of choice,
+it has wireless, can be powered from a battery and has a small form factor.
+\par\noindent
+But I think you'll agree that the ESP has a much smaller formfactor just by seeing it, not only that but the board requires much less power and 
+we did encounter instances in which utilising some smart programming 
+some people could get this board to run for over a month on a single coin 
+cell battery.
+\par\noindent
+The ESP boards come in at around a 12th the price of a Raspberry Pi, at 
+\$4 - 5 per board, a 10th the processing power at a whopping 160Mz 
+and include a total space onboard to flash of 4MB at most.
+\\
+Comparitively though, that's around a 20th or less of what a modern x86 
+chipset will be expected to run at, the storage about a half millionth 
+smaller than the storage we have on modern computerns and the memory for 
+operating the chipset? 32KB of SRAM, 80KB of DRAM.
+\\
+\par\noindent
+Issues we encoutnered with this board were only on or two major issues, 
+writing of efficient code was super important, without a bit of thought 
+that 100KB or so of RAM, we could easily be looking at a memory dump over 
+serial to determine what went wrong. 
+\\
+\par\noindent
+Small issues around the specification of the wireless were present, we 
+needed to ensure a 2.4Ghz network was reachable, as the boards don't support 
+newer 5Ghz ranges of wireless yet. It should be noted that newer models however 
+support both zigbee and bluetooth.
+\\
+\par\noindent
+Small break.
+\\
+\par\noindent
+Another show of hands, who here can write arduino code? 
+\\
+What about c++?
+\\
+How about any Golang?
+\\
+How about any Rust?
+\\
+What about Javascript? Anyone written some of that terrible language?
+\\
+These boards support all of those languages, and the community is adding more 
+reguarly. The barriers to using tech like this is extremely low and only 
+requires a small bit of learning to understand the sensors you are using.
+\\
+\par\noindent
+Alternate SBCs or Single Board Computers exist that we could have used, the 
+Raspberry Pi Zero or a number of replica style boards, but the ESP offered 
+a large number of users already on the platform, the lowest price to start 
+without this turning into a pure hardware project and were extremely easy to get
+on mass from China.
+\\
+\par\noindent
+Given more time on the project, we wanted to look at extending out more 
+metrics we could analyse, namely carbon dioxide detectors, ultrasonic 
+senors to generate a proto-mapping of the room and potentially look at 
+the noise generated in a room as further metrics.
+\\
+\par\noindent
+We intend on open-sourcing the code to aid other makers into the future and 
+give back to the community we learnt so much from over the course of this project.
+\\
+\par\noindent
+I'll now pass along to Josh for a walkthrough of the web application we developed 
+to facilitate our analytics of data.
+\end{document}
